@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Recursive;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    private $htmlSelect;
+    private $category;
 
-    public function __construct()
+    public function __construct(Category $category)
     {
-        $this->htmlSelect = '';
+        $this->category = $category;
     }
 
     public function create()
     {
-        // $data = Category::all();
-        // foreach ($data as $value) {
-        //     if ($value['parent_id'] == 0) {
-        //         echo "<option>" . $value['name'] . "</option>";
-        //     }
-        // }
-
-        $htmlOption = $this->categoryRecursive(0);
-
+        $data = $this->category->all();
+        $recursive = new Recursive($data);
+        $htmlOption = $recursive->categoryRecursive();
         return view('category.add', compact('htmlOption'));
-    }
-
-    public function categoryRecursive($id)
-    {
-        $data = Category::all();
-        foreach ($data as $value) {
-            if ($value['parent_id'] == $id) {
-                $this->htmlSelect .= "<option>" . $value['name'] . "</option>";
-
-                $this->categoryRecursive($value['id']);
-            }
-        }
-
-        return $this->htmlSelect;
     }
 
     public function index()
     {
         return view('category.index');
+    }
+
+    public function store(Request $request)
+    {
+        $this->category->create([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+            'slug' => Str::slug($request->name)
+        ]);
+
+        return redirect()->route('categories.index');
     }
 }

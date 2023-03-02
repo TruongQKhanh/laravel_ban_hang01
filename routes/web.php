@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,14 +23,8 @@ Route::get('/home', function () {
     return view('home');
 });
 
-// Route::prefix('categories')->group(function () {
-//     Route::get('/create', [
-//         'as' => 'categories.create',
-//         'user' => 'CategoryController@create'
-//     ]);
-// });
-
 Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
     Route::get('', [CategoryController::class, 'index'])->name('index');
     Route::get('create', [CategoryController::class, 'create'])->name('create');
+    Route::post('store', [CategoryController::class, 'store'])->name('store');
 });
