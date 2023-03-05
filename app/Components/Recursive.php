@@ -12,13 +12,17 @@ class Recursive {
         $this->data = $data;
     }
 
-    public function categoryRecursive($id = 0, $text = '')
+    public function categoryRecursive($parentId, $id = 0, $text = '')
     {
         foreach ($this->data as $value) {
             if ($value['parent_id'] == $id) {
-                $this->htmlSelect .= "<option value='" . $value['id'] . "'>" . $text . $value['name'] . "</option>";
+                if (!empty($parentId) && $parentId == $value['id']) {
+                    $this->htmlSelect .= "<option selected value='" . $value['id'] . "'>" . $text . $value['name'] . "</option>";
+                } else {
+                    $this->htmlSelect .= "<option value='" . $value['id'] . "'>" . $text . $value['name'] . "</option>";
+                }
     
-                $this->categoryRecursive($value['id'], $text . '--');
+                $this->categoryRecursive($parentId, $value['id'], $text . '--');
             }
         }
     
