@@ -26,6 +26,7 @@
                                 <label>Chọn menus cha</label>
                                 <select class="form-control" name="parent_id">
                                     <option value="0">Chọn danh mục cha</option>
+                                    {!! $optionSelect !!}
                                 </select>
                             </div>
                             

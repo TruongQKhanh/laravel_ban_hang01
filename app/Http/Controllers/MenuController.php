@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\MenuRecursive;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
+    private $menuRecursive;
+    public function __construct(MenuRecursive $menuRecursive)
+    {
+        $this->menuRecursive = $menuRecursive;
+    }
+
     public function index()
     {
         return view('menus.index');
@@ -13,6 +20,7 @@ class MenuController extends Controller
 
     public function create()
     {
-        return view('menus.add');
+        $optionSelect = $this->menuRecursive->menuRecursiveAdd();
+        return view('menus.add', compact('optionSelect'));
     }
 }
