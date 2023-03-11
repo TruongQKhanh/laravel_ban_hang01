@@ -37,4 +37,6 @@ Route::group(['prefix' => 'menus', 'as' => 'menus.'], function () {
     Route::get('', [MenuController::class, 'index'])->name('index');
     Route::get('create', [MenuController::class, 'create'])->name('create');
     Route::post('store', [MenuController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [MenuController::class, 'edit'])->name('edit');
+    Route::post('update/{id}', [MenuController::class, 'update'])->name('update');
 });

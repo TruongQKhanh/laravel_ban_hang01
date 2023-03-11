@@ -38,4 +38,14 @@ class MenuController extends Controller
         ]);
         return redirect()->route('menus.index');
     }
+
+    public function edit($id)
+    {
+        $menuFollowIdEdit = $this->menu->find($id);
+        $optionSelect = $this->menuRecursive->menuRecursiveEdit($menuFollowIdEdit->parent_id);
+        return view('menus.edit', compact('optionSelect', 'menuFollowIdEdit'));
+    }
+
+    public function update()
+    {}
 }
