@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MenuController;
 use App\Models\Category;
@@ -42,5 +43,9 @@ Route::prefix('admin')->group(function () {
         Route::get('edit/{id}', [MenuController::class, 'edit'])->name('edit');
         Route::post('update/{id}', [MenuController::class, 'update'])->name('update');
         Route::get('delete/{id}', [MenuController::class, 'delete'])->name('delete');
+    });
+
+    Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+        Route::get('', [AdminProductController::class, 'index'])->name('index');
     });
 });
